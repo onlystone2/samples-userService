@@ -16,7 +16,6 @@ is built using N-layered architecture.
     <li>MongoDB</li>
 </ul>
 
-
 ## Layers Of User Service
 <ol>
     <h3><li>Entity</li></h3>
