@@ -12,8 +12,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <spring.boot.maven.plugin.version>2.7.0</spring.boot.maven.plugin.version>
         <spring.boot.dependencies.version>2.7.0</spring.boot.dependencies.version>
         <spring.cloud.version>2021.0.3</spring.cloud.version>
@@ -43,22 +43,22 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-<!--        mongo db dependency ekle-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -76,7 +76,6 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -101,52 +100,44 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.3</version>
                 <configuration>
-                    <mainClass>com.kaankaplan.userService.UserServiceApplication</mainClass>
-                    <layout>JAR</layout>
+                    <from>
+                        <image>openjdk:17-oracle</image>
+<!--                        <image>openjdk:8</image>-->
+                    </from>
+                    <to>
+<!--                        <image>docker.io/onlystone2/movie-service-1.0</image>-->
+                        <image>onlystone2/user-service-1.0</image>
+                        <tags>
+                            <tag>latest</tag>
+                        </tags>
+        <!--                <auth>-->
+        <!--                    <username>myUserName</username>-->
+        <!--                    <password>MyPassword</password>-->
+        <!--                </auth>-->
+                    </to>
+<!--                    <containerizingMode>packaged</containerizingMode>-->
+                    <containerizingMode>exploded</containerizingMode>
+                    <container>
+<!--                        <jvmFlags>-->
+<!--                            <jvmFlag>-Xms512m</jvmFlag>-->
+<!--                            <jvmFlag>-Xdebug</jvmFlag>-->
+<!--                        </jvmFlags>-->
+<!--                        <ports>-->
+<!--                            <port>8080</port>-->
+<!--                        </ports>-->
+                        <format>Docker</format>
+                    </container>
                 </configuration>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.33.0</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>onlystone2/user-service-1.0</name>
-                            <build>
-                                <dockerFileDir>${basedir}</dockerFileDir>
-                                <tags>
-                                    <tag>latest</tag>
-                                </tags>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>docker-build</id>
-                        <phase>install</phase>
+                        <id>package</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>build</goal>
-                            <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>

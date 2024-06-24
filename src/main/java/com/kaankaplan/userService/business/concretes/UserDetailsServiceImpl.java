@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
         User user = userService.getUserByEmail(email);
 
         if(user == null) {
-            throw new UsernameNotFoundException("Kullanıcı bulunamadı");
+            throw new UsernameNotFoundException("User not found");
         }
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

@@ -1,6 +1,8 @@
 package com.kaankaplan.userService.controller;
 
+import com.kaankaplan.userService.business.abstracts.ClaimService;
 import com.kaankaplan.userService.business.abstracts.UserService;
+import com.kaankaplan.userService.entity.dto.UserCommentRequestDto;
 import com.kaankaplan.userService.entity.dto.UserRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ClaimService claimService;
 
     @GetMapping("isExist/{userId}")
     public boolean isExists(@PathVariable String userId) {
@@ -29,5 +32,10 @@ public class UserController {
     @GetMapping("isUserAdmin")
     public boolean isUserAdmin() {
         return userService.isUserAdmin();
+    }
+
+    @PostMapping("comment")
+    public void addUserComment(@RequestBody UserCommentRequestDto userCommentRequestDto) {
+        claimService.createUserComment(userCommentRequestDto);
     }
 }
